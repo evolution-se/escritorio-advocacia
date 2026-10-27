@@ -87,6 +87,7 @@ function initMobileMenu() {
       }
     });
   });
+}
 function initAreaFilters() {
   const chips = document.querySelectorAll(".filter-chip");
   const cards = document.querySelectorAll(".area-card-wrap");
@@ -106,24 +107,25 @@ function initAreaFilters() {
 }
 
 function initAreaModals() {
-  document.querySelectorAll("[data-area-modal]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const area = btn.getAttribute("data-area");
-      const modal = document.getElementById("areaModal");
-      if (!modal) return;
-      const data = AREA_DATA[area];
-      if (!data) return;
-      modal.querySelector(".modal-title").textContent = data.title;
-      modal.querySelector(".modal-body").innerHTML = data.body;
-      const cta = modal.querySelector(".modal-whatsapp");
-      if (cta) {
-        cta.href = whatsappLink(MSG.area(data.areaName));
-        cta.target = "_blank";
-        cta.rel = "noopener noreferrer";
-      }
-    });
+  const modal = document.getElementById("areaModal");
+  if (!modal) return;
+  modal.addEventListener("show.bs.modal", (event) => {
+    const btn = event.relatedTarget;
+    if (!btn) return;
+    const area = btn.getAttribute("data-area");
+    const data = AREA_DATA[area];
+    if (!data) return;
+    modal.querySelector(".modal-title").textContent = data.title;
+    modal.querySelector(".modal-body").innerHTML = data.body;
+    const cta = modal.querySelector(".modal-whatsapp");
+    if (cta) {
+      cta.href = whatsappLink(MSG.area(data.areaName));
+      cta.target = "_blank";
+      cta.rel = "noopener noreferrer";
+    }
   });
 }
+
 
 const AREA_DATA = {
   familia: { areaName: "Direito de Família e Sucessões", title: "Direito de Família e Sucessões", body: "<p>Atuamos em situações que envolvem relações familiares e sucessórias, com atenção à dimensão humana de cada caso.</p><h4>Situações atendidas</h4><ul><li>Divórcio consensual e litigioso</li><li>Guarda e regulamentação de convivência</li><li>Pensão alimentícia</li><li>Inventário e partilha de bens</li><li>Planejamento sucessório</li></ul><p>As possibilidades jurídicas são analisadas individualmente, conforme a situação apresentada.</p>" },
@@ -137,24 +139,26 @@ const AREA_DATA = {
 };
 
 function initArticleModals() {
-  document.querySelectorAll("[data-article-modal]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = btn.getAttribute("data-article");
-      const modal = document.getElementById("articleModal");
-      if (!modal) return;
-      const data = ARTICLE_DATA[key];
-      if (!data) return;
-      modal.querySelector(".modal-title").textContent = data.title;
-      modal.querySelector(".modal-body").innerHTML = data.body;
-    });
+  const modal = document.getElementById("articleModal");
+  if (!modal) return;
+  modal.addEventListener("show.bs.modal", (event) => {
+    const btn = event.relatedTarget;
+    if (!btn) return;
+    const key = btn.getAttribute("data-article");
+    const data = ARTICLE_DATA[key];
+    if (!data) return;
+    modal.querySelector(".modal-title").textContent = data.title;
+    modal.querySelector(".modal-body").innerHTML = data.body;
   });
 }
+
 
 const ARTICLE_DATA = {
   consulta: { title: "O que levar à primeira consulta com um advogado de família", body: "<p>A primeira consulta é um momento de esclarecimento. Levar documentos e informações organizadas ajuda a tornar a análise mais precisa.</p><p>É útil reunir documentos pessoais, certidões, comprovantes de renda, documentos dos filhos e qualquer documento relacionado à situação, como contratos ou notificações.</p><p>Também é importante anotar dúvidas e objetivos antes do atendimento, para que a conversa seja produtiva.</p><p>Esse conteúdo é informativo e não substitui a análise individualizada do caso por um profissional.</p>" },
   aluguel: { title: "Contrato de aluguel: pontos de atenção antes de assinar", body: "<p>Um contrato de locação bem elaborado reduz riscos para ambas as partes. Antes de assinar, é importante verificar cláusulas sobre prazo, reajuste, multa, garantias e responsabilidades.</p><p>Atenção especial deve ser dada às condições de rescisão antecipada e aos encargos que cabem a cada parte.</p><p>A análise de um contrato específico deve ser feita por um profissional, considerando o contexto e a legislação aplicável.</p><p>Este texto tem caráter informativo e não constitui consultoria jurídica.</p>" },
   consumidor: { title: "Direitos do consumidor: como registrar uma reclamação formalmente", body: "<p>Quando um problema de consumo não é resolvido diretamente com o fornecedor, é possível registrar reclamação formal junto a canais institucionais, mantendo registros e prazos.</p><p>Guardar protocolos, e-mails e comprovantes fortalece a posição do consumidor e facilita a análise do caso.</p><p>Cada situação possui particularidades, e a orientação adequada depende da análise individual.</p><p>Conteúdo informativo, sem caráter de consultoria jurídica individual.</p>" },
 };
+
 
 function initContactForm() {
   const form = document.getElementById("contactForm");
@@ -246,4 +250,3 @@ document.addEventListener("DOMContentLoaded", () => {
   setWA("[data-wa='ctaFinal']", MSG.ctaFinal);
 });
 
-}
