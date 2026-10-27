@@ -43,6 +43,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -54,6 +55,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -341,6 +343,7 @@ p:last-child { margin-bottom: 0; }
   .hero-image-wrap { max-width: 100%; margin: 24px 0 0; }
   .hero-image-frame img { aspect-ratio: 4 / 3; }
   .hero-image-accent { display: none; }
+  .about-image__accent { display: none; }
   .hero .btn { width: 100%; justify-content: center; }
 }
 
