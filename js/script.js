@@ -22,6 +22,11 @@ const MSG = {
 function initHeader() {
   const header = document.querySelector(".site-header");
   if (!header) return;
+  // Transparent header behavior only applies on pages that opt in (e.g. index).
+  if (header.dataset.transparent !== "true") {
+    header.classList.add("is-scrolled");
+    return;
+  }
   const onScroll = () => {
     if (window.scrollY > 60) header.classList.add("is-scrolled");
     else header.classList.remove("is-scrolled");
@@ -160,10 +165,35 @@ const ARTICLE_DATA = {
 };
 
 
+function formatPhone(value) {
+  const digits = String(value || '').replace(/\D/g, '').slice(0, 11);
+  if (!digits) return '';
+  if (digits.length <= 2) return '(' + digits;
+  const ddd = digits.slice(0, 2);
+  const rest = digits.slice(2);
+  if (rest.length <= 4) return '(' + ddd + ') ' + rest;
+  if (rest.length <= 8) {
+    return '(' + ddd + ') ' + rest.slice(0, 4) + (rest.length > 4 ? '-' + rest.slice(4) : '');
+  }
+  return '(' + ddd + ') ' + rest.slice(0, 5) + '-' + rest.slice(5);
+}
+
 function initContactForm() {
   const form = document.getElementById("contactForm");
   if (!form) return;
   const feedback = document.getElementById("formFeedback");
+  const phoneField = form.querySelector("#cPhone");
+  if (phoneField) {
+    phoneField.addEventListener('keydown', (e) => {
+      const control = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End','Enter'];
+      if (control.includes(e.key) || e.ctrlKey || e.metaKey) return;
+      if (!/^\d$/.test(e.key)) e.preventDefault();
+    });
+    phoneField.addEventListener('input', () => {
+      phoneField.value = formatPhone(phoneField.value);
+    });
+  }
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     let valid = true;

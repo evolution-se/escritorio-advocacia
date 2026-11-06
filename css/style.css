@@ -189,7 +189,8 @@ p:last-child { margin-bottom: 0; }
   transition: background-color 0.3s ease, box-shadow 0.3s ease, height 0.3s ease;
   background: transparent;
 }
-.site-header.is-scrolled {
+.site-header.is-scrolled,
+.site-header:not([data-transparent="true"]) {
   background-color: var(--color-primary);
   box-shadow: 0 4px 18px rgba(11,29,58,0.18);
   height: var(--header-h-scrolled);
